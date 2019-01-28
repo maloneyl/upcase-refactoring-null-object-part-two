@@ -87,7 +87,7 @@ describe User do
     it 'returns "No Plan" after the free trial without a subscription' do
       user = build_user(subscription: nil, free_trial: false)
 
-      expect(user.plan_name).to eq(User::NO_PLAN)
+      expect(user.plan_name).to eq('No Plan')
     end
   end
 
