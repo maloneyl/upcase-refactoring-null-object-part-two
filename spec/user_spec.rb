@@ -15,7 +15,14 @@ describe User do
 
     it 'does nothing without a subscription' do
       credit_card = double('credit_card')
-      user = build_user(subscription: nil, credit_card: credit_card)
+      user = build_user(subscription: nil, free_trial: false, credit_card: credit_card)
+
+      expect { user.charge }.not_to raise_error
+    end
+
+    it 'does nothing with a free trial' do
+      credit_card = double('credit_card')
+      user = build_user(subscription: nil, free_trial: true, credit_card: credit_card)
 
       expect { user.charge }.not_to raise_error
     end
@@ -81,7 +88,7 @@ describe User do
       subscription = double('subscription', plan_name: plan_name)
       user = build_user(subscription: subscription, free_trial: true)
 
-      expect(user.plan_name).to eq(User::FREE_TRIAL)
+      expect(user.plan_name).to eq('Free Trial')
     end
 
     it 'returns "No Plan" after the free trial without a subscription' do
